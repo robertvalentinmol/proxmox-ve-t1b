@@ -1,0 +1,5 @@
+# Los scripts tienen que llegar al nodo con finales de línea de Linux (LF).
+# Con CRLF de Windows, bash falla con errores como $'\r': command not found.
+*.sh        text eol=lf
+*.interfaces text eol=lf
+*.example   text eol=lf

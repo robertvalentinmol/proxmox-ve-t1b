@@ -1,0 +1,10 @@
+# EI1044 · Grupo T1B · Proxmox VE
+# Snapshot diario del CT 100 a las 02:00, conservando los 7 últimos.
+# Añadid la línea con:  crontab -e
+# Sustituid <secreto> por el valor real del token (sin < >). NUNCA subáis el secreto a GitHub.
+#
+# min hora día mes día_semana  comando
+0 2 * * * /usr/local/bin/cv4pve-autosnap --host=localhost --api-token=autosnap@pve!snap=<secreto> --vmid=100 snap --label=diario --keep=7
+
+# Prueba rápida (cada minuto, conserva 2). Quitadla después de comprobar que funciona:
+# */1 * * * * /usr/local/bin/cv4pve-autosnap --host=localhost --api-token=autosnap@pve!snap=<secreto> --vmid=100 snap --label=prueba --keep=2

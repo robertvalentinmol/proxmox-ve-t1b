@@ -1,0 +1,19 @@
+# EI1044 · Grupo T1B · Forma 1 (dos portátiles por el hotspot del iPhone)
+# /etc/network/interfaces del nodo pve (portátil A)
+# Adaptador 1 de VirtualBox (enp0s3): adaptador puente sobre la wifi del portátil
+# En pve2 (portátil B), cambiad 172.20.10.11 por 172.20.10.12.
+# La red del iPhone es 172.20.10.0/28: solo hay IPs de .1 a .14. Comprobad que están libres.
+# Después: /etc/hosts con la misma IP, "nameserver 172.20.10.1" en /etc/resolv.conf e  ifreload -a
+
+auto lo
+iface lo inet loopback
+
+iface enp0s3 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 172.20.10.11/28
+        gateway 172.20.10.1
+        bridge-ports enp0s3
+        bridge-stp off
+        bridge-fd 0
