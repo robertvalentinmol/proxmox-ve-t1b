@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nodo Store · Informática y tecnología</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff6a2b'/%3E%3Cpath d='M9 23V9l14 14V9' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root{--ink:#14161c;--muted:#666d7a;--line:#e7e9ee;--bg:#f5f6f8;--brand:#ff6a2b;--brand2:#ff8f3f;--dark:#101218;--ok:#14a05a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  .topbar{background:var(--dark);color:#cfd3dc;font-size:13px}
+  .topbar .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px}
+  .topbar b{color:#fff}
+
+  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .head{display:flex;align-items:center;gap:28px;height:72px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.5px}
+  .logo svg{width:36px;height:36px}
+  .logo b{font-weight:800}.logo span{color:var(--brand)}
+  .search{flex:1;display:flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;height:44px}
+  .search input{flex:1;border:0;padding:0 18px;font-size:15px;outline:none;background:transparent}
+  .search button{border:0;background:var(--ink);color:#fff;padding:0 22px;font-weight:600;font-size:14px;cursor:pointer}
+  .icons{display:flex;gap:22px;align-items:center;font-size:13px;color:var(--muted)}
+  .icons div{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;position:relative}
+  .icons svg{width:24px;height:24px;stroke:var(--ink)}
+  .badge{position:absolute;top:-6px;right:-4px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;border-radius:999px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
+  nav{border-top:1px solid var(--line)}
+  nav .wrap{display:flex;gap:26px;height:44px;align-items:center;font-size:14px;font-weight:500;overflow-x:auto;white-space:nowrap}
+  nav a:hover{color:var(--brand)}
+  nav .hot{color:var(--brand);font-weight:700}
+
+  .hero{margin:24px 0;display:grid;grid-template-columns:2fr 1fr;gap:20px}
+  .banner{border-radius:20px;padding:44px 48px;color:#fff;position:relative;overflow:hidden;
+          background:radial-gradient(circle at 85% 30%,#ff8f3f 0,transparent 45%),linear-gradient(120deg,#14161c 0%,#2a1a14 60%,#5a2410 100%)}
+  .banner small{display:inline-block;background:var(--brand);padding:5px 12px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:1px}
+  .banner h1{font-size:46px;line-height:1.05;margin:18px 0 12px;letter-spacing:-1.5px;max-width:520px}
+  .banner p{color:#e2d6cf;max-width:430px;margin-bottom:24px}
+  .btn{display:inline-block;background:var(--brand);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;border:0;cursor:pointer;font-size:15px}
+  .btn.ghost{background:transparent;border:2px solid #fff;margin-left:8px}
+  .count{display:flex;gap:10px;margin-top:28px}
+  .count div{background:rgba(255,255,255,.1);border-radius:10px;padding:8px 12px;text-align:center;min-width:62px}
+  .count b{display:block;font-size:22px}
+  .count span{font-size:11px;color:#d9c9bf;text-transform:uppercase;letter-spacing:1px}
+  .side{display:grid;gap:20px}
+  .mini{border-radius:20px;padding:26px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .mini h3{font-size:20px;margin:6px 0}
+  .mini p{color:var(--muted);font-size:14px}
+  .mini.blue{background:linear-gradient(135deg,#1d3cff,#6a5cff);color:#fff;border:0}
+  .mini.blue p{color:#dfe3ff}
+  .tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--brand)}
+  .mini.blue .tag{color:#ffd26b}
+
+  .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:34px}
+  .perk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:center;font-size:14px}
+  .perk svg{width:28px;height:28px;flex:none;stroke:var(--brand)}
+  .perk b{display:block}
+  .perk span{color:var(--muted);font-size:13px}
+
+  .sec{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px}
+  .sec h2{font-size:26px;letter-spacing:-.5px}
+  .sec a{color:var(--brand);font-weight:600;font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:44px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,22,28,.08)}
+  .img{height:170px;display:grid;place-items:center;position:relative}
+  .img svg{width:110px;height:110px}
+  .off{position:absolute;top:12px;left:12px;background:var(--brand);color:#fff;font-weight:700;font-size:12px;padding:4px 9px;border-radius:6px}
+  .new{background:var(--ink)}
+  .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+  .cat{font-size:12px;color:var(--muted)}
+  .card h4{font-size:15px;font-weight:600;margin:3px 0 6px;min-height:42px}
+  .stars{color:#ffb400;font-size:13px;letter-spacing:1px}
+  .stars span{color:var(--muted);letter-spacing:0;margin-left:4px}
+  .price{margin:10px 0 12px;display:flex;align-items:baseline;gap:8px}
+  .price b{font-size:22px}
+  .price s{color:var(--muted);font-size:14px}
+  .stock{font-size:12px;color:var(--ok);font-weight:600;margin-bottom:10px}
+  .add{margin-top:auto;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:9px;font-weight:700;cursor:pointer;font-size:14px}
+  .add:hover,.add.done{background:var(--ink);color:#fff}
+
+  .news{background:var(--ink);color:#fff;border-radius:20px;padding:34px 40px;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:44px}
+  .news h3{font-size:24px}
+  .news p{color:#aeb4c0}
+  .news form{display:flex;gap:8px}
+  .news input{border:0;border-radius:999px;padding:0 18px;height:46px;width:280px;font-size:15px}
+
+  footer{background:#fff;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+  .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;padding:36px 0}
+  .cols h5{color:var(--ink);font-size:14px;margin-bottom:10px}
+  .cols li{list-style:none;margin:6px 0}
+  .legal{border-top:1px solid var(--line);padding:16px 0;display:flex;justify-content:space-between;gap:16px;font-size:12px}
+  .srv{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(20,160,90,.18)}
+
+  @media (max-width:900px){.hero,.perks,.grid,.cols{grid-template-columns:1fr 1fr}.banner{grid-column:1/-1}.icons div span{display:none}.news{flex-direction:column;align-items:start}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div>🚚 Envío <b>gratis</b> en pedidos de más de 49 € · Entrega en 24 h</div>
+  <div>Atención al cliente: <b>964 000 123</b> · Lun–Sáb 9:00–21:00</div>
+</div></div>
+
+<header>
+  <div class="wrap head">
+    <a class="logo" href="#">
+      <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#ff6a2b"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>Nodo<span>Store</span></b>
+    </a>
+    <form class="search" onsubmit="return false"><input placeholder="Busca portátiles, monitores, componentes…"><button>Buscar</button></form>
+    <div class="icons">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Mi cuenta</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg><span>Favoritos</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 4h2l2.5 11h11L21 7H7"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg><span>Carrito</span><i class="badge" id="cart" style="display:none">0</i></div>
+    </div>
+  </div>
+  <nav><div class="wrap">
+    <a class="hot" href="#">🔥 Black Friday</a><a href="#">Portátiles</a><a href="#">Ordenadores</a><a href="#">Monitores</a>
+    <a href="#">Componentes</a><a href="#">Periféricos</a><a href="#">Redes</a><a href="#">Gaming</a><a href="#">Reacondicionados</a>
+  </div></nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="banner">
+      <small>BLACK FRIDAY · HASTA EL 1 DE DICIEMBRE</small>
+      <h1>Hasta un 40 % en tecnología que sí vas a usar</h1>
+      <p>Portátiles, monitores y componentes con stock real en nuestro almacén de Castelló. Pide hoy y lo tienes mañana.</p>
+      <a class="btn" href="#ofertas">Ver ofertas</a><a class="btn ghost" href="#">Catálogo</a>
+      <div class="count" id="count"><div><b>03</b><span>días</span></div><div><b>11</b><span>horas</span></div><div><b>42</b><span>min</span></div><div><b>08</b><span>seg</span></div></div>
+    </div>
+    <div class="side">
+      <div class="mini blue"><span class="tag">Nuevo</span><h3>Zona homelab</h3><p>Mini PC, switches y discos para montar tu propio servidor en casa.</p></div>
+      <div class="mini"><span class="tag">Estudiantes</span><h3>−10 % extra con tu correo universitario</h3><p>Válido en portátiles y tablets.</p></div>
+    </div>
+  </section>
+
+  <section class="perks">
+    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><div><b>Entrega en 24 h</b><span>Península y Baleares</span></div></div>
+    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/></svg><div><b>30 días de devolución</b><span>Sin preguntas</span></div></div>
+    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Garantía de 3 años</b><span>En todos los productos</span></div></div>
+    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><div><b>Paga en 3 plazos</b><span>Sin intereses</span></div></div>
+  </section>
+
+  <div class="sec" id="ofertas"><h2>Ofertas destacadas</h2><a href="#">Ver todas →</a></div>
+  <section class="grid" id="grid"></section>
+
+  <section class="news">
+    <div><h3>Ofertas antes que nadie</h3><p>Suscríbete y te avisamos de los chollos de la semana.</p></div>
+    <form onsubmit="this.innerHTML='<p style=&quot;color:#fff;font-weight:600&quot;>¡Gracias! Revisa tu correo ✉️</p>';return false"><input type="email" placeholder="tu@correo.es" required><button class="btn">Suscribirme</button></form>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div><a class="logo" href="#" style="font-size:19px"><svg viewBox="0 0 32 32" style="width:30px;height:30px"><rect width="32" height="32" rx="8" fill="#ff6a2b"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Nodo<span>Store</span></b></a>
+      <p style="margin-top:10px;max-width:300px">Tienda de informática online. Proyecto ficticio creado para la asignatura EI1044 · Grupo T1B.</p></div>
+    <div><h5>Comprar</h5><ul><li>Portátiles</li><li>Monitores</li><li>Componentes</li><li>Reacondicionados</li></ul></div>
+    <div><h5>Ayuda</h5><ul><li>Seguimiento del pedido</li><li>Devoluciones</li><li>Garantías</li><li>Contacto</li></ul></div>
+    <div><h5>Empresa</h5><ul><li>Quiénes somos</li><li>Trabaja con nosotros</li><li>Aviso legal</li><li>Privacidad</li></ul></div>
+  </div>
+  <div class="wrap legal">
+    <span>© 2026 Nodo Store (tienda ficticia) · Todos los precios incluyen IVA</span>
+    <span class="srv"><i class="dot"></i>Servidor: contenedor LXC 100 · Proxmox VE</span>
+  </div>
+</footer>
+
+<script>
+const ico = {
+  laptop:'<rect x="22" y="22" width="76" height="50" rx="5" fill="#2b2f3a"/><rect x="27" y="27" width="66" height="40" rx="2" fill="#7aa7ff"/><path d="M12 76h96l-6 9H18z" fill="#c9ced8"/>',
+  monitor:'<rect x="14" y="18" width="92" height="58" rx="5" fill="#2b2f3a"/><rect x="19" y="23" width="82" height="48" rx="2" fill="#ff9a6b"/><path d="M52 76h16l4 14H48z" fill="#9aa1ad"/><rect x="38" y="90" width="44" height="5" rx="2" fill="#9aa1ad"/>',
+  keyboard:'<rect x="8" y="38" width="104" height="44" rx="8" fill="#2b2f3a"/>'+[0,1,2].map(r=>[...Array(9)].map((_,c)=>`<rect x="${15+c*10.5}" y="${45+r*10}" width="8" height="7" rx="1.5" fill="${(r+c)%5?'#e8eaf0':'#ff6a2b'}"/>`).join('')).join('')+'<rect x="30" y="74" width="60" height="5" rx="1.5" fill="#e8eaf0"/>',
+  mouse:'<rect x="38" y="18" width="44" height="76" rx="22" fill="#2b2f3a"/><path d="M60 18v26" stroke="#596070" stroke-width="2"/><rect x="57" y="28" width="6" height="11" rx="3" fill="#ff6a2b"/>',
+  ssd:'<rect x="10" y="44" width="100" height="30" rx="3" fill="#1f6f4a"/><rect x="18" y="50" width="22" height="18" rx="2" fill="#2b2f3a"/><rect x="46" y="50" width="22" height="18" rx="2" fill="#2b2f3a"/><rect x="74" y="52" width="16" height="14" rx="2" fill="#2b2f3a"/><rect x="100" y="48" width="8" height="22" fill="#e0b64c"/>',
+  headphones:'<path d="M24 66V58a36 36 0 0 1 72 0v8" fill="none" stroke="#2b2f3a" stroke-width="8"/><rect x="16" y="60" width="22" height="34" rx="9" fill="#2b2f3a"/><rect x="82" y="60" width="22" height="34" rx="9" fill="#2b2f3a"/><rect x="22" y="66" width="10" height="22" rx="5" fill="#ff6a2b"/><rect x="88" y="66" width="10" height="22" rx="5" fill="#ff6a2b"/>',
+  minipc:'<rect x="22" y="34" width="76" height="52" rx="10" fill="#2b2f3a"/><rect x="30" y="74" width="8" height="4" rx="2" fill="#38d39f"/><rect x="62" y="74" width="10" height="4" rx="1" fill="#596070"/><rect x="76" y="74" width="10" height="4" rx="1" fill="#596070"/><path d="M32 46h56" stroke="#3c4250" stroke-width="2"/>',
+  router:'<rect x="14" y="58" width="92" height="28" rx="8" fill="#2b2f3a"/><path d="M30 58l-6-34M90 58l6-34M60 58V22" stroke="#2b2f3a" stroke-width="5" stroke-linecap="round"/>'+[0,1,2,3].map(i=>`<circle cx="${34+i*10}" cy="72" r="2.5" fill="#38d39f"/>`).join('')
+};
+const productos = [
+  ['laptop','Portátiles','Portátil Nodo Air 14" · Ryzen 7 · 16 GB · 1 TB SSD',799,1099,'4.7',312,'#eef3ff','-27 %'],
+  ['monitor','Monitores','Monitor 27" QHD IPS 165 Hz · 1 ms',219,299,'4.8',1204,'#fff1ea','-27 %'],
+  ['minipc','Homelab','Mini PC N100 · 16 GB · 512 GB · 2× LAN 2,5 GbE',249,319,'4.6',88,'#eefbf4','Nuevo'],
+  ['ssd','Componentes','SSD NVMe M.2 2 TB · PCIe 4.0 · 7000 MB/s',119,179,'4.9',2310,'#effaf5','-34 %'],
+  ['keyboard','Periféricos','Teclado mecánico TKL · switches rojos · RGB',59,89,'4.5',640,'#f3f3f6','-34 %'],
+  ['headphones','Audio','Auriculares inalámbricos con cancelación de ruido',89,149,'4.6',975,'#fff4ee','-40 %'],
+  ['mouse','Periféricos','Ratón inalámbrico ergonómico · 4000 DPI',24.99,39.99,'4.4',1532,'#f1f3ff','-38 %'],
+  ['router','Redes','Router Wi‑Fi 7 tribanda · 4× LAN 2,5 GbE',179,229,'4.7',214,'#eefaf8','Nuevo']
+];
+const eur = n => n.toLocaleString('es-ES',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' €';
+document.getElementById('grid').innerHTML = productos.map(([i,cat,n,p,o,r,v,bg,tag]) => `
+  <article class="card">
+    <div class="img" style="background:${bg}"><span class="off ${tag==='Nuevo'?'new':''}">${tag}</span><svg viewBox="0 0 120 110">${ico[i]}</svg></div>
+    <div class="body"><span class="cat">${cat}</span><h4>${n}</h4>
+      <div class="stars">★★★★★<span>${r} (${v.toLocaleString('es-ES')})</span></div>
+      <div class="price"><b>${eur(p)}</b><s>${eur(o)}</s></div>
+      <div class="stock">● En stock · recíbelo mañana</div>
+      <button class="add">Añadir al carrito</button></div>
+  </article>`).join('');
+let n = 0;
+document.querySelectorAll('.add').forEach(b => b.onclick = () => {
+  const c=document.getElementById('cart'); c.style.display='grid'; c.textContent = ++n;
+  b.textContent = '✓ Añadido'; b.classList.add('done');
+  setTimeout(() => { b.textContent = 'Añadir al carrito'; b.classList.remove('done'); }, 1400);
+});
+const fin = new Date('2026-12-01T23:59:59');
+const tick = () => {
+  let s = Math.max(0, Math.floor((fin - new Date()) / 1000));
+  const v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60].map(x => String(x).padStart(2,'0'));
+  document.querySelectorAll('#count b').forEach((b,k) => b.textContent = v[k]);
+};
+tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
