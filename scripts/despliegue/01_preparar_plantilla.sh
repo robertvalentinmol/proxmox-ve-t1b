@@ -26,8 +26,13 @@ iface vmbr1 inet static
         post-down iptables -t nat -D POSTROUTING -s '${RED}.0/24' -o ${SALIDA} -j MASQUERADE
 EOF
     ifreload -a
+elif ip -4 addr show vmbr1 2>/dev/null | grep -q "inet ${RED}.1/24"; then
+    echo ">> vmbr1 ya existe con ${RED}.1/24, no se toca"
 else
-    echo ">> vmbr1 ya existe, no se toca"
+    echo ">> ERROR: vmbr1 ya existe pero no tiene la IP ${RED}.1/24:"
+    ip -4 addr show vmbr1 2>/dev/null | awk '/inet /{print "   " $2}'
+    echo "   Bórrala antes de seguir:  ifdown vmbr1  y quita su bloque de /etc/network/interfaces"
+    exit 1
 fi
 
 # --- 2. Contenedor plantilla con nginx ---------------------------------------
