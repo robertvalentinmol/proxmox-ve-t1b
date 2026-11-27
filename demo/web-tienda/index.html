@@ -6,214 +6,427 @@
 <title>Nodo Store · Informática y tecnología</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff6a2b'/%3E%3Cpath d='M9 23V9l14 14V9' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-  :root{--ink:#14161c;--muted:#666d7a;--line:#e7e9ee;--bg:#f5f6f8;--brand:#ff6a2b;--brand2:#ff8f3f;--dark:#101218;--ok:#14a05a}
+  :root{--ink:#12141a;--muted:#6a7180;--line:#e8eaef;--bg:#f4f5f8;--brand:#ff6a2b;--brand2:#ffb03a;--violet:#6d5cff;--ok:#12a15a;--r:18px}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+  html{scroll-behavior:smooth}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  button{font:inherit}
+  .wrap{max-width:1220px;margin:0 auto;padding:0 24px}
 
-  .topbar{background:var(--dark);color:#cfd3dc;font-size:13px}
-  .topbar .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px}
+  /* barra superior */
+  .topbar{background:var(--ink);color:#c9ceda;font-size:13px;height:36px;overflow:hidden}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:36px}
+  .rot{position:relative;height:36px;flex:1}
+  .rot span{position:absolute;inset:0;display:flex;align-items:center;opacity:0;transform:translateY(100%);transition:.5s}
+  .rot span.on{opacity:1;transform:none}
   .topbar b{color:#fff}
 
-  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-  .head{display:flex;align-items:center;gap:28px;height:72px}
-  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.5px}
-  .logo svg{width:36px;height:36px}
-  .logo b{font-weight:800}.logo span{color:var(--brand)}
-  .search{flex:1;display:flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;height:44px}
-  .search input{flex:1;border:0;padding:0 18px;font-size:15px;outline:none;background:transparent}
-  .search button{border:0;background:var(--ink);color:#fff;padding:0 22px;font-weight:600;font-size:14px;cursor:pointer}
-  .icons{display:flex;gap:22px;align-items:center;font-size:13px;color:var(--muted)}
-  .icons div{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;position:relative}
-  .icons svg{width:24px;height:24px;stroke:var(--ink)}
-  .badge{position:absolute;top:-6px;right:-4px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;border-radius:999px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
-  nav{border-top:1px solid var(--line)}
-  nav .wrap{display:flex;gap:26px;height:44px;align-items:center;font-size:14px;font-weight:500;overflow-x:auto;white-space:nowrap}
-  nav a:hover{color:var(--brand)}
-  nav .hot{color:var(--brand);font-weight:700}
+  /* cabecera */
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+  .head{display:flex;align-items:center;gap:26px;height:74px}
+  .logo{display:flex;align-items:center;gap:10px;font-size:23px;letter-spacing:-.6px}
+  .logo b{font-weight:850}.logo span{color:var(--brand)}
+  .logo svg{width:38px;height:38px}
+  .search{flex:1;display:flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:14px;height:48px;padding:0 6px 0 4px;transition:.2s}
+  .search:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(18,20,26,.07)}
+  .search select{border:0;background:var(--bg);border-radius:10px;height:36px;padding:0 10px;font-size:13px;font-weight:600;color:var(--ink);outline:none}
+  .search input{flex:1;border:0;padding:0 14px;font-size:15px;outline:none;background:transparent}
+  .search button{border:0;background:var(--brand);color:#fff;height:36px;padding:0 18px;border-radius:10px;font-weight:700;cursor:pointer}
+  .icons{display:flex;gap:6px}
+  .ic{position:relative;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;cursor:pointer;transition:.15s}
+  .ic:hover{background:var(--bg)}
+  .ic svg{width:23px;height:23px;stroke:var(--ink)}
+  .badge{position:absolute;top:4px;right:3px;background:var(--brand);color:#fff;font-size:11px;font-weight:800;border-radius:999px;min-width:19px;height:19px;display:none;place-items:center;padding:0 5px;border:2px solid #fff;font-style:normal}
+  .badge.pop{animation:pop .35s}
+  @keyframes pop{50%{transform:scale(1.45)}}
+  nav .wrap{display:flex;gap:6px;height:48px;align-items:center;font-size:14px;font-weight:600;overflow-x:auto;white-space:nowrap}
+  nav a{padding:7px 12px;border-radius:999px;color:#3a3f4b;transition:.15s}
+  nav a:hover{background:var(--bg);color:var(--ink)}
+  nav .hot{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+  nav .hot:hover{color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-  .hero{margin:24px 0;display:grid;grid-template-columns:2fr 1fr;gap:20px}
-  .banner{border-radius:20px;padding:44px 48px;color:#fff;position:relative;overflow:hidden;
-          background:radial-gradient(circle at 85% 30%,#ff8f3f 0,transparent 45%),linear-gradient(120deg,#14161c 0%,#2a1a14 60%,#5a2410 100%)}
-  .banner small{display:inline-block;background:var(--brand);padding:5px 12px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:1px}
-  .banner h1{font-size:46px;line-height:1.05;margin:18px 0 12px;letter-spacing:-1.5px;max-width:520px}
-  .banner p{color:#e2d6cf;max-width:430px;margin-bottom:24px}
-  .btn{display:inline-block;background:var(--brand);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;border:0;cursor:pointer;font-size:15px}
-  .btn.ghost{background:transparent;border:2px solid #fff;margin-left:8px}
-  .count{display:flex;gap:10px;margin-top:28px}
-  .count div{background:rgba(255,255,255,.1);border-radius:10px;padding:8px 12px;text-align:center;min-width:62px}
-  .count b{display:block;font-size:22px}
-  .count span{font-size:11px;color:#d9c9bf;text-transform:uppercase;letter-spacing:1px}
-  .side{display:grid;gap:20px}
-  .mini{border-radius:20px;padding:26px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
-  .mini h3{font-size:20px;margin:6px 0}
-  .mini p{color:var(--muted);font-size:14px}
-  .mini.blue{background:linear-gradient(135deg,#1d3cff,#6a5cff);color:#fff;border:0}
-  .mini.blue p{color:#dfe3ff}
-  .tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--brand)}
-  .mini.blue .tag{color:#ffd26b}
+  /* hero */
+  .hero{margin:22px 0 18px;border-radius:28px;overflow:hidden;position:relative;color:#fff;background:#0d0f16;min-height:470px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center}
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;animation:drift 14s ease-in-out infinite alternate}
+  .b1{width:520px;height:520px;background:#ff5a1f;right:-80px;top:-160px}
+  .b2{width:420px;height:420px;background:#6d5cff;right:260px;bottom:-240px;animation-delay:-5s}
+  .b3{width:300px;height:300px;background:#ffb03a;left:-120px;top:-120px;opacity:.35;animation-delay:-9s}
+  @keyframes drift{to{transform:translate(-60px,40px) scale(1.15)}}
+  .grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:4px 4px;opacity:.35}
+  .htext{position:relative;padding:54px 0 54px 56px}
+  .pill{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:6px 14px 6px 8px;border-radius:999px;font-size:13px;font-weight:600}
+  .pill i{background:var(--brand);font-style:normal;font-weight:800;padding:2px 8px;border-radius:999px;font-size:11px;letter-spacing:.5px}
+  .htext h1{font-size:68px;line-height:.95;letter-spacing:-2.5px;margin:20px 0 16px;font-weight:900}
+  .htext h1 .out{color:transparent;-webkit-text-stroke:2px #fff}
+  .htext h1 .grad{background:linear-gradient(90deg,#ffb03a,#ff6a2b 50%,#ff3d7f);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .htext p{color:#c8cad6;font-size:17px;max-width:440px;margin-bottom:26px}
+  .cta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;font-weight:750;padding:14px 26px;border-radius:14px;border:0;cursor:pointer;font-size:15px;box-shadow:0 10px 30px rgba(255,106,43,.45);transition:.2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,106,43,.55)}
+  .btn.glass{background:rgba(255,255,255,.1);box-shadow:none;border:1px solid rgba(255,255,255,.25)}
+  .btn.done{background:var(--ok);box-shadow:none}
+  .count{display:flex;gap:8px;margin-top:30px;align-items:center}
+  .count .u{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;width:70px;padding:9px 0;text-align:center}
+  .count b{display:block;font-size:26px;font-variant-numeric:tabular-nums;line-height:1.1}
+  .count span{font-size:10.5px;color:#aeb2c0;text-transform:uppercase;letter-spacing:1.5px}
+  .count .sep{font-size:24px;color:#6b7080;font-weight:700}
+  .hart{position:relative;height:100%;min-height:470px}
+  .hart svg.dev{position:absolute;right:40px;top:50%;transform:translateY(-50%);width:520px;filter:drop-shadow(0 40px 50px rgba(0,0,0,.55));animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(calc(-50% - 12px))}}
+  .chip{position:absolute;background:rgba(255,255,255,.95);color:var(--ink);border-radius:16px;padding:10px 14px;font-size:13px;font-weight:650;display:flex;gap:10px;align-items:center;box-shadow:0 18px 40px rgba(0,0,0,.35);animation:bob 5s ease-in-out infinite}
+  .chip small{display:block;color:var(--muted);font-weight:500;font-size:11.5px}
+  .chip .dot{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px}
+  .c1{left:10px;top:70px}.c2{right:30px;bottom:52px;animation-delay:-2s}.c3{right:10px;top:46px;animation-delay:-3.5s;background:var(--brand);color:#fff}
+  .c3 b{font-size:22px;letter-spacing:-.5px}
+  @keyframes bob{50%{transform:translateY(-8px)}}
 
-  .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:34px}
-  .perk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:center;font-size:14px}
-  .perk svg{width:28px;height:28px;flex:none;stroke:var(--brand)}
+  /* categorías */
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:36px}
+  .cat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 10px 14px;text-align:center;font-weight:650;font-size:14px;cursor:pointer;transition:.2s}
+  .cat:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(18,20,26,.08);border-color:transparent}
+  .cat .ci{width:60px;height:60px;margin:0 auto 10px;border-radius:18px;display:grid;place-items:center}
+  .cat .ci svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .cat small{display:block;color:var(--muted);font-weight:500;font-size:12px;margin-top:2px}
+
+  /* oferta del día */
+  .deal{display:grid;grid-template-columns:1fr 1.2fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;margin-bottom:40px}
+  .deal .vis{background:radial-gradient(circle at 50% 45%,#fff 0,#ffe7da 45%,#ffd2bb 100%);display:grid;place-items:center;position:relative;min-height:330px}
+  .deal .vis svg{width:300px;filter:drop-shadow(0 26px 30px rgba(120,40,0,.25))}
+  .deal .vis .tag{position:absolute;top:22px;left:22px;background:var(--ink);color:#fff;font-weight:800;font-size:13px;padding:7px 12px;border-radius:10px}
+  .deal .info{padding:38px 42px;display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{color:var(--brand);font-weight:800;font-size:12.5px;letter-spacing:2px;text-transform:uppercase}
+  .deal h3{font-size:30px;letter-spacing:-.8px;line-height:1.1;margin:8px 0 10px}
+  .deal ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 18px}
+  .deal li{background:var(--bg);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;color:#3a3f4b}
+  .bigprice{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .bigprice b{font-size:42px;letter-spacing:-1.5px}
+  .bigprice s{color:var(--muted);font-size:18px}
+  .bigprice em{font-style:normal;background:#e8f8ef;color:var(--ok);font-weight:800;font-size:13px;padding:4px 9px;border-radius:8px}
+  .bar{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;margin:6px 0 8px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand2),var(--brand));border-radius:99px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+  .barinfo{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:20px}
+  .barinfo b{color:var(--ink)}
+
+  /* secciones y productos */
+  .sec{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px;gap:16px;flex-wrap:wrap}
+  .sec h2{font-size:30px;letter-spacing:-.8px}
+  .tabs{display:flex;gap:6px;background:#fff;border:1px solid var(--line);padding:5px;border-radius:14px}
+  .tabs button{border:0;background:transparent;padding:8px 14px;border-radius:10px;font-weight:650;font-size:14px;color:var(--muted);cursor:pointer}
+  .tabs button.on{background:var(--ink);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:46px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:.25s;position:relative}
+  .card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(18,20,26,.11);border-color:transparent}
+  .img{height:190px;display:grid;place-items:center;position:relative;overflow:hidden}
+  .img svg{width:150px;height:130px;transition:.35s}
+  .card:hover .img svg{transform:scale(1.08) rotate(-2deg)}
+  .off{position:absolute;top:12px;left:12px;background:var(--brand);color:#fff;font-weight:800;font-size:12px;padding:5px 9px;border-radius:8px}
+  .off.new{background:var(--violet)}
+  .fav{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+  .fav svg{width:17px;height:17px;stroke:var(--ink);fill:none;stroke-width:2;transition:.2s}
+  .fav.on svg{fill:#ff3d5a;stroke:#ff3d5a}
+  .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+  .catn{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+  .card h4{font-size:15px;font-weight:650;margin:4px 0 6px;min-height:42px;line-height:1.35}
+  .stars{color:#ffb400;font-size:13px;letter-spacing:1px}
+  .stars span{color:var(--muted);letter-spacing:0;margin-left:4px}
+  .price{margin:10px 0 4px;display:flex;align-items:baseline;gap:8px}
+  .price b{font-size:23px;letter-spacing:-.5px}
+  .price s{color:var(--muted);font-size:14px}
+  .stock{font-size:12px;color:var(--ok);font-weight:650;margin-bottom:12px}
+  .add{margin-top:auto;border:0;background:var(--ink);color:#fff;border-radius:12px;padding:11px;font-weight:700;cursor:pointer;font-size:14px;display:flex;justify-content:center;gap:8px;align-items:center;transition:.2s}
+  .add:hover{background:var(--brand)}
+  .add.done{background:var(--ok)}
+  .card.hide{display:none}
+
+  /* banners */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:40px}
+  .promo{border-radius:24px;padding:34px 36px;color:#fff;position:relative;overflow:hidden;min-height:200px;display:flex;flex-direction:column;justify-content:center}
+  .promo h3{font-size:28px;letter-spacing:-.6px;margin:6px 0 8px;max-width:330px;line-height:1.1}
+  .promo p{opacity:.85;max-width:320px;font-size:15px}
+  .promo .ghost{position:absolute;right:-20px;bottom:-30px;width:230px;opacity:.95}
+  .p1{background:linear-gradient(135deg,#4d3bff,#8b5cff 60%,#c06bff)}
+  .p2{background:linear-gradient(135deg,#0f8f5c,#19b87a 60%,#5fd6a2)}
+  .promo .eyebrow{color:#ffd66b}
+
+  .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
+  .perk{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:center;font-size:14px}
+  .perk .pi{width:44px;height:44px;border-radius:12px;background:#fff1ea;display:grid;place-items:center;flex:none}
+  .perk svg{width:24px;height:24px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .perk b{display:block}
   .perk span{color:var(--muted);font-size:13px}
 
-  .sec{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px}
-  .sec h2{font-size:26px;letter-spacing:-.5px}
-  .sec a{color:var(--brand);font-weight:600;font-size:14px}
-  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:44px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.15s}
-  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,22,28,.08)}
-  .img{height:170px;display:grid;place-items:center;position:relative}
-  .img svg{width:110px;height:110px}
-  .off{position:absolute;top:12px;left:12px;background:var(--brand);color:#fff;font-weight:700;font-size:12px;padding:4px 9px;border-radius:6px}
-  .new{background:var(--ink)}
-  .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
-  .cat{font-size:12px;color:var(--muted)}
-  .card h4{font-size:15px;font-weight:600;margin:3px 0 6px;min-height:42px}
-  .stars{color:#ffb400;font-size:13px;letter-spacing:1px}
-  .stars span{color:var(--muted);letter-spacing:0;margin-left:4px}
-  .price{margin:10px 0 12px;display:flex;align-items:baseline;gap:8px}
-  .price b{font-size:22px}
-  .price s{color:var(--muted);font-size:14px}
-  .stock{font-size:12px;color:var(--ok);font-weight:600;margin-bottom:10px}
-  .add{margin-top:auto;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:9px;font-weight:700;cursor:pointer;font-size:14px}
-  .add:hover,.add.done{background:var(--ink);color:#fff}
-
-  .news{background:var(--ink);color:#fff;border-radius:20px;padding:34px 40px;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:44px}
-  .news h3{font-size:24px}
+  .news{background:var(--ink);color:#fff;border-radius:26px;padding:40px 46px;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:46px;position:relative;overflow:hidden}
+  .news::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:.35;right:-80px;top:-160px}
+  .news h3{font-size:28px;letter-spacing:-.6px}
   .news p{color:#aeb4c0}
-  .news form{display:flex;gap:8px}
-  .news input{border:0;border-radius:999px;padding:0 18px;height:46px;width:280px;font-size:15px}
+  .news form{display:flex;gap:8px;position:relative;z-index:1}
+  .news input{border:0;border-radius:14px;padding:0 18px;height:50px;width:300px;font-size:15px;outline:none}
 
   footer{background:#fff;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
-  .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;padding:36px 0}
+  .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;padding:40px 0 30px}
   .cols h5{color:var(--ink);font-size:14px;margin-bottom:10px}
-  .cols li{list-style:none;margin:6px 0}
-  .legal{border-top:1px solid var(--line);padding:16px 0;display:flex;justify-content:space-between;gap:16px;font-size:12px}
-  .srv{display:inline-flex;align-items:center;gap:6px}
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(20,160,90,.18)}
+  .cols li{list-style:none;margin:7px 0}
+  .pay{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .pay span{border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;color:#3a3f4b}
+  .legal{border-top:1px solid var(--line);padding:16px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:12.5px;flex-wrap:wrap}
+  .srv{display:inline-flex;align-items:center;gap:8px;background:#eefaf3;color:#0d7a43;font-weight:650;padding:5px 12px;border-radius:999px}
+  .live{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:live 1.6s infinite}
+  @keyframes live{0%{box-shadow:0 0 0 0 rgba(18,161,90,.55)}100%{box-shadow:0 0 0 9px rgba(18,161,90,0)}}
 
-  @media (max-width:900px){.hero,.perks,.grid,.cols{grid-template-columns:1fr 1fr}.banner{grid-column:1/-1}.icons div span{display:none}.news{flex-direction:column;align-items:start}}
+  /* aviso de carrito */
+  .toast{position:fixed;right:24px;bottom:24px;background:var(--ink);color:#fff;border-radius:16px;padding:14px 18px;display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px rgba(0,0,0,.3);transform:translateY(140%);transition:.4s cubic-bezier(.2,.9,.3,1.2);z-index:50;font-size:14px;max-width:380px}
+  .toast.on{transform:none}
+  .toast .ok{width:34px;height:34px;border-radius:10px;background:var(--ok);display:grid;place-items:center;flex:none;font-weight:900}
+  .toast small{display:block;color:#aeb4c0}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .card.reveal.in:hover{transform:translateY(-6px)}
+
+  @media (max-width:1000px){.hero{grid-template-columns:1fr}.hart{display:none}.cats{grid-template-columns:repeat(3,1fr)}.deal,.duo{grid-template-columns:1fr}
+    .grid,.perks,.cols{grid-template-columns:1fr 1fr}.htext h1{font-size:50px}.news{flex-direction:column;align-items:start}.icons .ic:not(.cart){display:none}}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gScreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b2f63"/><stop offset="1" stop-color="#14162e"/></linearGradient>
+    <linearGradient id="gMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9ecf2"/><stop offset="1" stop-color="#b8bec9"/></linearGradient>
+    <linearGradient id="gDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f4d"/><stop offset="1" stop-color="#1c1f27"/></linearGradient>
+    <linearGradient id="gOrange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb03a"/><stop offset="1" stop-color="#ff5a1f"/></linearGradient>
+    <linearGradient id="gViolet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b7bff"/><stop offset="1" stop-color="#4d3bff"/></linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fe0a8"/><stop offset="1" stop-color="#109a63"/></linearGradient>
+  </defs>
+</svg>
+
 <div class="topbar"><div class="wrap">
-  <div>🚚 Envío <b>gratis</b> en pedidos de más de 49 € · Entrega en 24 h</div>
-  <div>Atención al cliente: <b>964 000 123</b> · Lun–Sáb 9:00–21:00</div>
+  <div class="rot" id="rot">
+    <span class="on">🚚&nbsp; Envío <b>&nbsp;gratis&nbsp;</b> en pedidos de más de 49 € · Entrega en 24 h</span>
+    <span>🎓&nbsp; Estudiantes: <b>&nbsp;−10 % extra&nbsp;</b> con tu correo universitario</span>
+    <span>🔥&nbsp; Black Friday: <b>&nbsp;hasta −40 %&nbsp;</b> hasta el 1 de diciembre</span>
+  </div>
+  <div>Atención al cliente: <b>964 000 123</b></div>
 </div></div>
 
 <header>
   <div class="wrap head">
     <a class="logo" href="#">
-      <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#ff6a2b"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="url(#gOrange)"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <b>Nodo<span>Store</span></b>
     </a>
-    <form class="search" onsubmit="return false"><input placeholder="Busca portátiles, monitores, componentes…"><button>Buscar</button></form>
+    <form class="search" onsubmit="return false">
+      <select><option>Todo</option><option>Portátiles</option><option>Monitores</option><option>Componentes</option></select>
+      <input placeholder="Busca portátiles, monitores, componentes…">
+      <button>Buscar</button>
+    </form>
     <div class="icons">
-      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Mi cuenta</span></div>
-      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg><span>Favoritos</span></div>
-      <div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 4h2l2.5 11h11L21 7H7"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg><span>Carrito</span><i class="badge" id="cart" style="display:none">0</i></div>
+      <div class="ic" title="Mi cuenta"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+      <div class="ic" title="Favoritos"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg><i class="badge" id="favn">0</i></div>
+      <div class="ic cart" title="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 4h2l2.5 11h11L21 7H7"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg><i class="badge" id="cart">0</i></div>
     </div>
   </div>
   <nav><div class="wrap">
-    <a class="hot" href="#">🔥 Black Friday</a><a href="#">Portátiles</a><a href="#">Ordenadores</a><a href="#">Monitores</a>
-    <a href="#">Componentes</a><a href="#">Periféricos</a><a href="#">Redes</a><a href="#">Gaming</a><a href="#">Reacondicionados</a>
+    <a class="hot" href="#ofertas">🔥 Black Friday</a><a href="#">Portátiles</a><a href="#">Ordenadores</a><a href="#">Monitores</a>
+    <a href="#">Componentes</a><a href="#">Periféricos</a><a href="#">Redes</a><a href="#">Homelab</a><a href="#">Reacondicionados</a>
   </div></nav>
 </header>
 
 <main class="wrap">
+
   <section class="hero">
-    <div class="banner">
-      <small>BLACK FRIDAY · HASTA EL 1 DE DICIEMBRE</small>
-      <h1>Hasta un 40 % en tecnología que sí vas a usar</h1>
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="grain"></div>
+    <div class="htext">
+      <span class="pill"><i>BLACK FRIDAY</i> Solo hasta el 1 de diciembre</span>
+      <h1><span class="out">Hasta</span><br><span class="grad">−40 %</span> en<br>tecnología</h1>
       <p>Portátiles, monitores y componentes con stock real en nuestro almacén de Castelló. Pide hoy y lo tienes mañana.</p>
-      <a class="btn" href="#ofertas">Ver ofertas</a><a class="btn ghost" href="#">Catálogo</a>
-      <div class="count" id="count"><div><b>03</b><span>días</span></div><div><b>11</b><span>horas</span></div><div><b>42</b><span>min</span></div><div><b>08</b><span>seg</span></div></div>
+      <div class="cta"><a class="btn" href="#ofertas">Ver ofertas →</a><a class="btn glass" href="#dia">Oferta del día</a></div>
+      <div class="count" id="count">
+        <div class="u"><b>00</b><span>días</span></div><span class="sep">:</span>
+        <div class="u"><b>00</b><span>horas</span></div><span class="sep">:</span>
+        <div class="u"><b>00</b><span>min</span></div><span class="sep">:</span>
+        <div class="u"><b>00</b><span>seg</span></div>
+      </div>
     </div>
-    <div class="side">
-      <div class="mini blue"><span class="tag">Nuevo</span><h3>Zona homelab</h3><p>Mini PC, switches y discos para montar tu propio servidor en casa.</p></div>
-      <div class="mini"><span class="tag">Estudiantes</span><h3>−10 % extra con tu correo universitario</h3><p>Válido en portátiles y tablets.</p></div>
+    <div class="hart">
+      <svg class="dev" viewBox="0 0 520 360">
+        <rect x="150" y="10" width="340" height="215" rx="14" fill="url(#gDark)"/>
+        <rect x="162" y="22" width="316" height="191" rx="6" fill="url(#gScreen)"/>
+        <path d="M180 180 C230 150 250 165 290 120 S360 95 400 70 S450 55 462 48" stroke="url(#gOrange)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M180 180 C230 150 250 165 290 120 S360 95 400 70 S450 55 462 48 V200 H180Z" fill="url(#gOrange)" opacity=".18"/>
+        <rect x="182" y="40" width="80" height="10" rx="5" fill="#fff" opacity=".85"/><rect x="182" y="58" width="50" height="8" rx="4" fill="#fff" opacity=".35"/>
+        <rect x="300" y="235" width="40" height="55" fill="url(#gMetal)"/><rect x="250" y="286" width="140" height="12" rx="6" fill="url(#gMetal)"/>
+        <rect x="30" y="150" width="250" height="150" rx="12" fill="url(#gDark)"/>
+        <rect x="40" y="160" width="230" height="130" rx="5" fill="url(#gViolet)"/>
+        <circle cx="155" cy="225" r="34" fill="#fff" opacity=".14"/>
+        <path d="M137 241V209l36 32V209" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M0 300h310l-18 22H18z" fill="url(#gMetal)"/><rect x="128" y="300" width="54" height="6" rx="3" fill="#9aa1ad"/>
+        <path d="M398 318v-14a42 42 0 0 1 84 0v14" fill="none" stroke="#1c1f27" stroke-width="9"/>
+        <rect x="388" y="306" width="24" height="44" rx="10" fill="url(#gOrange)"/><rect x="468" y="306" width="24" height="44" rx="10" fill="url(#gOrange)"/>
+      </svg>
+      <div class="chip c1"><span class="dot" style="background:#e8f8ef">🚚</span><div>Entrega en 24 h<small>Pide antes de las 22:00</small></div></div>
+      <div class="chip c3"><div><small style="color:#ffe2d3">Ahorra hasta</small><b>−40 %</b></div></div>
+      <div class="chip c2"><span class="dot" style="background:#fff5d6">★</span><div>4,8 / 5<small>Valoración media de la tienda</small></div></div>
     </div>
   </section>
 
-  <section class="perks">
-    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><div><b>Entrega en 24 h</b><span>Península y Baleares</span></div></div>
-    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/></svg><div><b>30 días de devolución</b><span>Sin preguntas</span></div></div>
-    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Garantía de 3 años</b><span>En todos los productos</span></div></div>
-    <div class="perk"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><div><b>Paga en 3 plazos</b><span>Sin intereses</span></div></div>
+  <section class="cats reveal">
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#7aa2ff,#4d63ff)"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg></div>Portátiles<small>214 productos</small></div>
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#ffb03a,#ff6a2b)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></div>Monitores<small>138 productos</small></div>
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#5fe0a8,#109a63)"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div>Componentes<small>960 productos</small></div>
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#ff7ab6,#e0306b)"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h.01M10 11h.01M14 11h.01M18 11h.01M7 14h10"/></svg></div>Periféricos<small>402 productos</small></div>
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#6ad5ff,#1690d8)"><svg viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a14 14 0 0 1 20 0"/><circle cx="12" cy="19.5" r="1"/></svg></div>Redes<small>87 productos</small></div>
+    <div class="cat"><div class="ci" style="background:linear-gradient(135deg,#a48bff,#6d3bff)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></div>Homelab<small>Nuevo</small></div>
   </section>
 
-  <div class="sec" id="ofertas"><h2>Ofertas destacadas</h2><a href="#">Ver todas →</a></div>
+  <section class="deal reveal" id="dia">
+    <div class="vis">
+      <span class="tag">⚡ Oferta del día</span>
+      <svg viewBox="0 0 300 220">
+        <rect x="40" y="10" width="220" height="150" rx="12" fill="url(#gDark)"/>
+        <rect x="50" y="20" width="200" height="130" rx="5" fill="url(#gViolet)"/>
+        <path d="M60 130 C100 100 130 120 160 80 S220 60 240 40" stroke="#fff" stroke-width="4" fill="none" opacity=".8" stroke-linecap="round"/>
+        <path d="M10 160h280l-20 26H30z" fill="url(#gMetal)"/><rect x="122" y="160" width="56" height="6" rx="3" fill="#9aa1ad"/>
+      </svg>
+    </div>
+    <div class="info">
+      <span class="eyebrow">Termina hoy a medianoche</span>
+      <h3>Portátil Nodo Air 14" · Ryzen 7 · 16 GB · 1 TB SSD</h3>
+      <ul><li>Pantalla 2,8K 120 Hz</li><li>1,29 kg</li><li>Hasta 15 h de batería</li><li>Wi-Fi 7</li></ul>
+      <div class="bigprice"><b>799 €</b><s>1.099 €</s><em>Ahorras 300 €</em></div>
+      <div class="bar"><i id="sold"></i></div>
+      <div class="barinfo"><span>Vendidos: <b>68 %</b></span><span>Quedan <b>12 unidades</b></span></div>
+      <div><button class="btn add-deal">Añadir al carrito</button></div>
+    </div>
+  </section>
+
+  <div class="sec" id="ofertas">
+    <h2>Ofertas destacadas</h2>
+    <div class="tabs" id="tabs">
+      <button class="on" data-f="all">Todo</button><button data-f="pc">Ordenadores</button><button data-f="per">Periféricos</button><button data-f="comp">Componentes y redes</button>
+    </div>
+  </div>
   <section class="grid" id="grid"></section>
 
-  <section class="news">
+  <section class="duo reveal">
+    <div class="promo p1">
+      <span class="eyebrow">Zona homelab</span>
+      <h3>Monta tu propio servidor en casa</h3>
+      <p>Mini PC, switches y discos para virtualizar con Proxmox desde 249 €.</p>
+      <svg class="ghost" viewBox="0 0 200 150"><rect x="30" y="20" width="150" height="40" rx="8" fill="#fff" opacity=".22"/><rect x="30" y="70" width="150" height="40" rx="8" fill="#fff" opacity=".32"/><circle cx="50" cy="40" r="5" fill="#5fe0a8"/><circle cx="50" cy="90" r="5" fill="#5fe0a8"/><rect x="66" y="36" width="60" height="8" rx="4" fill="#fff" opacity=".6"/><rect x="66" y="86" width="80" height="8" rx="4" fill="#fff" opacity=".6"/></svg>
+    </div>
+    <div class="promo p2">
+      <span class="eyebrow">Reacondicionados</span>
+      <h3>Como nuevos, hasta un 50 % más baratos</h3>
+      <p>Revisados por nuestro taller y con 2 años de garantía.</p>
+      <svg class="ghost" viewBox="0 0 200 150"><circle cx="110" cy="80" r="56" fill="#fff" opacity=".18"/><path d="M80 82l20 20 38-42" stroke="#fff" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>
+    </div>
+  </section>
+
+  <section class="perks reveal">
+    <div class="perk"><div class="pi"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><b>Entrega en 24 h</b><span>Península y Baleares</span></div></div>
+    <div class="perk"><div class="pi"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/></svg></div><div><b>30 días de devolución</b><span>Sin preguntas</span></div></div>
+    <div class="perk"><div class="pi"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><b>Garantía de 3 años</b><span>En todos los productos</span></div></div>
+    <div class="perk"><div class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></div><div><b>Paga en 3 plazos</b><span>Sin intereses</span></div></div>
+  </section>
+
+  <section class="news reveal">
     <div><h3>Ofertas antes que nadie</h3><p>Suscríbete y te avisamos de los chollos de la semana.</p></div>
-    <form onsubmit="this.innerHTML='<p style=&quot;color:#fff;font-weight:600&quot;>¡Gracias! Revisa tu correo ✉️</p>';return false"><input type="email" placeholder="tu@correo.es" required><button class="btn">Suscribirme</button></form>
+    <form onsubmit="this.innerHTML='<p style=&quot;color:#fff;font-weight:650;font-size:16px&quot;>¡Gracias! Revisa tu correo ✉️</p>';return false"><input type="email" placeholder="tu@correo.es" required><button class="btn">Suscribirme</button></form>
   </section>
 </main>
 
 <footer>
   <div class="wrap cols">
-    <div><a class="logo" href="#" style="font-size:19px"><svg viewBox="0 0 32 32" style="width:30px;height:30px"><rect width="32" height="32" rx="8" fill="#ff6a2b"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Nodo<span>Store</span></b></a>
-      <p style="margin-top:10px;max-width:300px">Tienda de informática online. Proyecto ficticio creado para la asignatura EI1044 · Grupo T1B.</p></div>
+    <div><a class="logo" href="#" style="font-size:20px"><svg viewBox="0 0 32 32" style="width:32px;height:32px"><rect width="32" height="32" rx="9" fill="url(#gOrange)"/><path d="M9 23V9l14 14V9" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Nodo<span>Store</span></b></a>
+      <p style="margin-top:12px;max-width:320px">Tienda de informática online. Proyecto ficticio creado para la asignatura EI1044 · Grupo T1B.</p>
+      <div class="pay"><span>Tarjeta</span><span>Transferencia</span><span>3 plazos</span><span>Contra reembolso</span></div></div>
     <div><h5>Comprar</h5><ul><li>Portátiles</li><li>Monitores</li><li>Componentes</li><li>Reacondicionados</li></ul></div>
     <div><h5>Ayuda</h5><ul><li>Seguimiento del pedido</li><li>Devoluciones</li><li>Garantías</li><li>Contacto</li></ul></div>
     <div><h5>Empresa</h5><ul><li>Quiénes somos</li><li>Trabaja con nosotros</li><li>Aviso legal</li><li>Privacidad</li></ul></div>
   </div>
   <div class="wrap legal">
     <span>© 2026 Nodo Store (tienda ficticia) · Todos los precios incluyen IVA</span>
-    <span class="srv"><i class="dot"></i>Servidor: contenedor LXC 100 · Proxmox VE</span>
+    <span class="srv"><i class="live"></i>Servidor en línea · contenedor LXC 100 · Proxmox VE</span>
   </div>
 </footer>
 
+<div class="toast" id="toast"><span class="ok">✓</span><div><b id="tname">Añadido al carrito</b><small id="tinfo"></small></div></div>
+
 <script>
 const ico = {
-  laptop:'<rect x="22" y="22" width="76" height="50" rx="5" fill="#2b2f3a"/><rect x="27" y="27" width="66" height="40" rx="2" fill="#7aa7ff"/><path d="M12 76h96l-6 9H18z" fill="#c9ced8"/>',
-  monitor:'<rect x="14" y="18" width="92" height="58" rx="5" fill="#2b2f3a"/><rect x="19" y="23" width="82" height="48" rx="2" fill="#ff9a6b"/><path d="M52 76h16l4 14H48z" fill="#9aa1ad"/><rect x="38" y="90" width="44" height="5" rx="2" fill="#9aa1ad"/>',
-  keyboard:'<rect x="8" y="38" width="104" height="44" rx="8" fill="#2b2f3a"/>'+[0,1,2].map(r=>[...Array(9)].map((_,c)=>`<rect x="${15+c*10.5}" y="${45+r*10}" width="8" height="7" rx="1.5" fill="${(r+c)%5?'#e8eaf0':'#ff6a2b'}"/>`).join('')).join('')+'<rect x="30" y="74" width="60" height="5" rx="1.5" fill="#e8eaf0"/>',
-  mouse:'<rect x="38" y="18" width="44" height="76" rx="22" fill="#2b2f3a"/><path d="M60 18v26" stroke="#596070" stroke-width="2"/><rect x="57" y="28" width="6" height="11" rx="3" fill="#ff6a2b"/>',
-  ssd:'<rect x="10" y="44" width="100" height="30" rx="3" fill="#1f6f4a"/><rect x="18" y="50" width="22" height="18" rx="2" fill="#2b2f3a"/><rect x="46" y="50" width="22" height="18" rx="2" fill="#2b2f3a"/><rect x="74" y="52" width="16" height="14" rx="2" fill="#2b2f3a"/><rect x="100" y="48" width="8" height="22" fill="#e0b64c"/>',
-  headphones:'<path d="M24 66V58a36 36 0 0 1 72 0v8" fill="none" stroke="#2b2f3a" stroke-width="8"/><rect x="16" y="60" width="22" height="34" rx="9" fill="#2b2f3a"/><rect x="82" y="60" width="22" height="34" rx="9" fill="#2b2f3a"/><rect x="22" y="66" width="10" height="22" rx="5" fill="#ff6a2b"/><rect x="88" y="66" width="10" height="22" rx="5" fill="#ff6a2b"/>',
-  minipc:'<rect x="22" y="34" width="76" height="52" rx="10" fill="#2b2f3a"/><rect x="30" y="74" width="8" height="4" rx="2" fill="#38d39f"/><rect x="62" y="74" width="10" height="4" rx="1" fill="#596070"/><rect x="76" y="74" width="10" height="4" rx="1" fill="#596070"/><path d="M32 46h56" stroke="#3c4250" stroke-width="2"/>',
-  router:'<rect x="14" y="58" width="92" height="28" rx="8" fill="#2b2f3a"/><path d="M30 58l-6-34M90 58l6-34M60 58V22" stroke="#2b2f3a" stroke-width="5" stroke-linecap="round"/>'+[0,1,2,3].map(i=>`<circle cx="${34+i*10}" cy="72" r="2.5" fill="#38d39f"/>`).join('')
+  laptop:'<rect x="22" y="14" width="96" height="64" rx="7" fill="url(#gDark)"/><rect x="28" y="20" width="84" height="52" rx="3" fill="url(#gViolet)"/><path d="M60 58V36l20 22V36" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><path d="M8 78h124l-9 12H17z" fill="url(#gMetal)"/>',
+  monitor:'<rect x="12" y="10" width="116" height="74" rx="7" fill="url(#gDark)"/><rect x="18" y="16" width="104" height="62" rx="3" fill="url(#gScreen)"/><path d="M26 66 C46 50 58 58 72 42 S100 30 114 24" stroke="url(#gOrange)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M62 84h16l4 18H58z" fill="url(#gMetal)"/><rect x="44" y="100" width="52" height="7" rx="3.5" fill="url(#gMetal)"/>',
+  keyboard:'<rect x="6" y="38" width="128" height="52" rx="10" fill="url(#gDark)"/>'+[0,1,2].map(r=>[...Array(11)].map((_,c)=>`<rect x="${14+c*10.6}" y="${46+r*12}" width="8.4" height="8.4" rx="2" fill="${(r*3+c)%7?'#eef0f5':'url(#gOrange)'}"/>`).join('')).join('')+'<rect x="36" y="82" width="68" height="5" rx="2" fill="#eef0f5"/>',
+  mouse:'<rect x="44" y="12" width="52" height="92" rx="26" fill="url(#gDark)"/><path d="M70 12v32" stroke="#5a6070" stroke-width="2"/><rect x="66" y="24" width="8" height="14" rx="4" fill="url(#gOrange)"/><path d="M50 74 a26 26 0 0 0 40 0" stroke="#ff6a2b" stroke-width="3" fill="none" opacity=".7"/>',
+  ssd:'<rect x="6" y="44" width="128" height="34" rx="4" fill="url(#gGreen)"/><rect x="16" y="51" width="28" height="20" rx="2" fill="url(#gDark)"/><rect x="50" y="51" width="28" height="20" rx="2" fill="url(#gDark)"/><rect x="84" y="53" width="20" height="16" rx="2" fill="url(#gDark)"/><rect x="124" y="48" width="10" height="26" fill="#e0b64c"/><circle cx="114" cy="61" r="3" fill="#0b5e3c"/>',
+  headphones:'<path d="M28 70V60a42 42 0 0 1 84 0v10" fill="none" stroke="#2a2e38" stroke-width="9"/><rect x="18" y="62" width="26" height="40" rx="11" fill="url(#gDark)"/><rect x="96" y="62" width="26" height="40" rx="11" fill="url(#gDark)"/><rect x="25" y="69" width="12" height="26" rx="6" fill="url(#gOrange)"/><rect x="103" y="69" width="12" height="26" rx="6" fill="url(#gOrange)"/>',
+  minipc:'<rect x="24" y="30" width="92" height="62" rx="14" fill="url(#gDark)"/><rect x="24" y="30" width="92" height="14" rx="7" fill="#4a5060"/><circle cx="38" cy="80" r="3.5" fill="#38d39f"/><rect x="72" y="77" width="12" height="6" rx="1.5" fill="#6a7080"/><rect x="90" y="77" width="12" height="6" rx="1.5" fill="#6a7080"/><path d="M60 68V54l14 14V54" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>',
+  router:'<rect x="14" y="62" width="112" height="32" rx="10" fill="url(#gDark)"/><path d="M32 62l-7-40M108 62l7-40M70 62V18" stroke="#2a2e38" stroke-width="6" stroke-linecap="round"/>'+[0,1,2,3].map(i=>`<circle cx="${40+i*12}" cy="78" r="3" fill="#38d39f"/>`).join('')+'<path d="M58 8a18 18 0 0 1 24 0M62 13a10 10 0 0 1 16 0" stroke="#4d63ff" stroke-width="3" fill="none" stroke-linecap="round"/>'
 };
 const productos = [
-  ['laptop','Portátiles','Portátil Nodo Air 14" · Ryzen 7 · 16 GB · 1 TB SSD',799,1099,'4.7',312,'#eef3ff','-27 %'],
-  ['monitor','Monitores','Monitor 27" QHD IPS 165 Hz · 1 ms',219,299,'4.8',1204,'#fff1ea','-27 %'],
-  ['minipc','Homelab','Mini PC N100 · 16 GB · 512 GB · 2× LAN 2,5 GbE',249,319,'4.6',88,'#eefbf4','Nuevo'],
-  ['ssd','Componentes','SSD NVMe M.2 2 TB · PCIe 4.0 · 7000 MB/s',119,179,'4.9',2310,'#effaf5','-34 %'],
-  ['keyboard','Periféricos','Teclado mecánico TKL · switches rojos · RGB',59,89,'4.5',640,'#f3f3f6','-34 %'],
-  ['headphones','Audio','Auriculares inalámbricos con cancelación de ruido',89,149,'4.6',975,'#fff4ee','-40 %'],
-  ['mouse','Periféricos','Ratón inalámbrico ergonómico · 4000 DPI',24.99,39.99,'4.4',1532,'#f1f3ff','-38 %'],
-  ['router','Redes','Router Wi‑Fi 7 tribanda · 4× LAN 2,5 GbE',179,229,'4.7',214,'#eefaf8','Nuevo']
+  ['laptop','pc','Portátiles','Portátil Nodo Air 14" · Ryzen 7 · 16 GB · 1 TB SSD',799,1099,'4.7',312,'#e6eaff','-27 %'],
+  ['monitor','pc','Monitores','Monitor 27" QHD IPS 165 Hz · 1 ms',219,299,'4.8',1204,'#ffe9de','-27 %'],
+  ['minipc','pc','Homelab','Mini PC N100 · 16 GB · 512 GB · 2× LAN 2,5 GbE',249,319,'4.6',88,'#ebe6ff','Nuevo'],
+  ['ssd','comp','Componentes','SSD NVMe M.2 2 TB · PCIe 4.0 · 7000 MB/s',119,179,'4.9',2310,'#e0f7eb','-34 %'],
+  ['keyboard','per','Periféricos','Teclado mecánico TKL · switches rojos · RGB',59,89,'4.5',640,'#eceef3','-34 %'],
+  ['headphones','per','Audio','Auriculares inalámbricos con cancelación de ruido',89,149,'4.6',975,'#ffeadf','-40 %'],
+  ['mouse','per','Periféricos','Ratón inalámbrico ergonómico · 4000 DPI',24.99,39.99,'4.4',1532,'#e7ebff','-38 %'],
+  ['router','comp','Redes','Router Wi‑Fi 7 tribanda · 4× LAN 2,5 GbE',179,229,'4.7',214,'#dff2ff','Nuevo']
 ];
 const eur = n => n.toLocaleString('es-ES',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' €';
-document.getElementById('grid').innerHTML = productos.map(([i,cat,n,p,o,r,v,bg,tag]) => `
-  <article class="card">
-    <div class="img" style="background:${bg}"><span class="off ${tag==='Nuevo'?'new':''}">${tag}</span><svg viewBox="0 0 120 110">${ico[i]}</svg></div>
-    <div class="body"><span class="cat">${cat}</span><h4>${n}</h4>
-      <div class="stars">★★★★★<span>${r} (${v.toLocaleString('es-ES')})</span></div>
+const heart = '<svg viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg>';
+document.getElementById('grid').innerHTML = productos.map(([i,f,cat,n,p,o,r,v,bg,tag]) => `
+  <article class="card reveal" data-f="${f}">
+    <div class="img" style="background:radial-gradient(circle at 50% 40%,#fff 0,${bg} 75%)"><span class="off ${tag==='Nuevo'?'new':''}">${tag}</span><span class="fav">${heart}</span><svg viewBox="0 0 140 110">${ico[i]}</svg></div>
+    <div class="body"><span class="catn">${cat}</span><h4>${n}</h4>
+      <div class="stars">★★★★★<span>${r.replace('.',',')} (${v.toLocaleString('es-ES')})</span></div>
       <div class="price"><b>${eur(p)}</b><s>${eur(o)}</s></div>
       <div class="stock">● En stock · recíbelo mañana</div>
-      <button class="add">Añadir al carrito</button></div>
+      <button class="add" data-n="${n.split(' · ')[0]}" data-p="${eur(p)}">Añadir al carrito</button></div>
   </article>`).join('');
-let n = 0;
-document.querySelectorAll('.add').forEach(b => b.onclick = () => {
-  const c=document.getElementById('cart'); c.style.display='grid'; c.textContent = ++n;
-  b.textContent = '✓ Añadido'; b.classList.add('done');
-  setTimeout(() => { b.textContent = 'Añadir al carrito'; b.classList.remove('done'); }, 1400);
+
+/* carrito y favoritos */
+let n = 0, nf = 0, tt;
+const cart = document.getElementById('cart'), favn = document.getElementById('favn'), toast = document.getElementById('toast');
+const bump = el => { el.style.display = 'grid'; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+const anadir = (b, nombre, precio) => {
+  cart.textContent = ++n; bump(cart);
+  document.getElementById('tname').textContent = nombre;
+  document.getElementById('tinfo').textContent = 'Añadido al carrito · ' + precio + ' · ' + n + (n === 1 ? ' artículo' : ' artículos');
+  toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 2600);
+  if (b.classList.contains('done')) return;
+  const t = b.textContent; b.textContent = '✓ Añadido'; b.classList.add('done');
+  setTimeout(() => { b.textContent = t; b.classList.remove('done'); }, 1400);
+};
+document.querySelectorAll('.add').forEach(b => b.onclick = () => anadir(b, b.dataset.n, b.dataset.p));
+document.querySelector('.add-deal').onclick = e => anadir(e.currentTarget, 'Portátil Nodo Air 14"', '799 €');
+document.querySelectorAll('.fav').forEach(f => f.onclick = () => { f.classList.toggle('on'); nf += f.classList.contains('on') ? 1 : -1; favn.textContent = nf; if (nf) bump(favn); else favn.style.display = 'none'; });
+
+/* filtros */
+document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#tabs button').forEach(x => x.classList.remove('on')); b.classList.add('on');
+  document.querySelectorAll('.card').forEach(c => c.classList.toggle('hide', b.dataset.f !== 'all' && c.dataset.f !== b.dataset.f));
 });
+
+/* cuenta atrás del Black Friday */
 const fin = new Date('2026-12-01T23:59:59');
 const tick = () => {
-  let s = Math.max(0, Math.floor((fin - new Date()) / 1000));
-  const v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60].map(x => String(x).padStart(2,'0'));
-  document.querySelectorAll('#count b').forEach((b,k) => b.textContent = v[k]);
+  const s = Math.max(0, Math.floor((fin - new Date()) / 1000));
+  const v = [s / 86400 | 0, s % 86400 / 3600 | 0, s % 3600 / 60 | 0, s % 60].map(x => String(x).padStart(2, '0'));
+  document.querySelectorAll('#count b').forEach((b, k) => b.textContent = v[k]);
 };
 tick(); setInterval(tick, 1000);
+
+/* mensajes de la barra superior */
+const rs = document.querySelectorAll('#rot span'); let ri = 0;
+setInterval(() => { rs[ri].classList.remove('on'); ri = (ri + 1) % rs.length; rs[ri].classList.add('on'); }, 3500);
+
+/* animaciones al hacer scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target);
+  if (e.target.id === 'dia') setTimeout(() => document.getElementById('sold').style.width = '68%', 300); } }), {threshold: .12});
+document.querySelectorAll('.reveal').forEach((el, k) => { el.style.transitionDelay = (el.classList.contains('card') ? (k % 4) * 70 : 0) + 'ms'; io.observe(el); });
 </script>
 </body>
 </html>
